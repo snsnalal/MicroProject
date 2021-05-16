@@ -9,15 +9,15 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dust"
+        android:text="미세먼지"
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintHorizontal_bias="0.015"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.316" />
+        app:layout_constraintVertical_bias="0.321" />
 
     <TextView
         android:id="@+id/textView"
@@ -26,7 +26,7 @@
         android:layout_marginEnd="254dp"
         android:layout_marginRight="254dp"
         android:layout_marginBottom="378dp"
-        android:text="gas"
+        android:text="가스"
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,11 +61,13 @@
         android:layout_marginEnd="147dp"
         android:layout_marginRight="147dp"
         android:layout_marginBottom="22dp"
+        android:editable="false"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,6 +80,7 @@
         android:layout_marginEnd="42dp"
         android:layout_marginRight="42dp"
         android:layout_marginBottom="405dp"
+        android:editable="false"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"

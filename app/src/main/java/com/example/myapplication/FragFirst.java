@@ -21,14 +21,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import static com.example.myapplication.MainActivity.reader;
+
 public class FragFirst extends Fragment{
     private View view;
-    Socket s;
     TextView sensor1;
     TextView sensor2;
     Button btn;
-    BufferedReader reader;
-    PrintWriter writer;
 
     public static FragFirst newInstance()
     {
@@ -40,54 +39,19 @@ public class FragFirst extends Fragment{
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.frag_first, container, false);
-        btn = (Button)myView.findViewById(R.id.button);
-        sensor1 = (EditText)myView.findViewById(R.id.editTextTextPersonName);
-        sensor2 = (EditText)myView.findViewById(R.id.editTextTextPersonName2);
+        view = inflater.inflate(R.layout.frag_first, container, false);
 
-        btn.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                ConnectThread thread = new ConnectThread();
-                thread.start();
-            }
-        });
-
-        return view;
-    }
-
-    class ConnectThread extends Thread
-    {
-        public void run()
-        {
-            Log.d("MyTag", "스레드 실행");
-            try {
-                s = new Socket("113.198.234.48", 32000);
-                Log.d("MyTag", "연결");
-                reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                writer = new PrintWriter(s.getOutputStream(), true);
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (s.isConnected()) {
-                            Toast.makeText(getActivity(), "연결됨", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getActivity(), "연결안됨", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                });
-
+        btn = (Button)view.findViewById(R.id.button);
+        sensor1 = (EditText)view.findViewById(R.id.editTextTextPersonName);
+        sensor2 = (EditText)view.findViewById(R.id.editTextTextPersonName2);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 ReceiveThread rt = new ReceiveThread();
                 rt.start();
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-
-        }
+        });
+        return view;
     }
 
     class ReceiveThread extends Thread
