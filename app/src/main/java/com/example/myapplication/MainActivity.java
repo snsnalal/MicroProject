@@ -72,26 +72,33 @@ public class MainActivity extends AppCompatActivity {
         public void run()
         {
             Log.d("MyTag", "스레드 실행");
-            try {
-                s = new Socket("113.198.234.48", 32000);
-                Log.d("MyTag", "연결");
-                reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                writer = new PrintWriter(s.getOutputStream(), true);
+            while(true)
+            {
+                try {
+                    s = new Socket("113.198.234.48", 32000);
+                    Log.d("MyTag", "연결");
+                    reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                    writer = new PrintWriter(s.getOutputStream(), true);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (s.isConnected()) {
-                            Toast.makeText(getApplicationContext(),"연결됨", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(),"연결안됨" ,Toast.LENGTH_LONG).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (s.isConnected()) {
+                                Toast.makeText(getApplicationContext(),"연결됨", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(),"연결안됨" ,Toast.LENGTH_LONG).show();
+                            }
+
                         }
-
+                    });
+                    if(s.isConnected())
+                    {
+                        break;
                     }
-                });
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

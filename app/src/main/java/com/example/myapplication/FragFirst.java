@@ -73,9 +73,8 @@ public class FragFirst extends Fragment{
                                 sensor1.setText(data2);
                                 Log.d("MyTag", data);
                                 Log.d("MyTag", data2);
-
                             }
-                            else
+                            else if(data.equals("1"))
                             {
                                 sensor2.setText(data2);
                                 Log.d("MyTag", data);
