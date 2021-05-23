@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
@@ -43,13 +44,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("MyTag", Integer.toString(tab.getPosition()));
 
                 viewPager2.setCurrentItem((tab.getPosition()));
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
 
             }
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             while(true)
             {
                 try {
-                    s = new Socket("113.198.234.48", 32000);
+                    s = new Socket("211.220.184.10", 32000);
                     Log.d("MyTag", "연결");
                     reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
                     writer = new PrintWriter(s.getOutputStream(), true);
