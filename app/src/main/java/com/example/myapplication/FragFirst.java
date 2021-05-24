@@ -40,13 +40,8 @@ public class FragFirst extends Fragment{
     Button btn;
     ReceiveThread rt;
     private LineChart chart;
+    private LineChart chart2;
 
-    public static FragFirst newInstance()
-    {
-        FragFirst fragFirst = new FragFirst();
-
-        return fragFirst;
-    }
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -54,37 +49,62 @@ public class FragFirst extends Fragment{
         view = inflater.inflate(R.layout.frag_first, container, false);
 
         chart = (LineChart) view.findViewById(R.id.LineChart);
+        chart2 = (LineChart)view.findViewById(R.id.LineChart2);
 
         chart.setDrawGridBackground(true);
         chart.setBackgroundColor(Color.BLACK);
         chart.setGridBackgroundColor(Color.BLACK);
 
+        chart2.setDrawGridBackground(true);
+        chart2.setBackgroundColor(Color.BLACK);
+        chart2.setGridBackgroundColor(Color.BLACK);
+
         chart.getDescription().setEnabled(true);
         Description des = chart.getDescription();
         des.setEnabled(true);
-        des.setText("Real-Time DATA");
+        des.setText("미세먼지");
         des.setTextSize(15f);
         des.setTextColor(Color.WHITE);
 
+        chart2.getDescription().setEnabled(true);
+        Description des2 = chart2.getDescription();
+        des2.setEnabled(true);
+        des2.setText("가스");
+        des2.setTextSize(15f);
+        des2.setTextColor(Color.WHITE);
+
         // touch gestures (false-비활성화)
         chart.setTouchEnabled(false);
+
+        chart2.setTouchEnabled(false);
 
 // scaling and dragging (false-비활성화)
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
 
+        chart2.setDragEnabled(false);
+        chart2.setScaleEnabled(false);
+
 //auto scale
         chart.setAutoScaleMinMaxEnabled(true);
+
+        chart2.setAutoScaleMinMaxEnabled(true);
 
 // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false);
 
+        chart2.setPinchZoom(false);
+
 //X축
         chart.getXAxis().setDrawGridLines(true);
+        chart2.getXAxis().setDrawGridLines(true);
         chart.getXAxis().setDrawAxisLine(false);
+        chart2.getXAxis().setDrawAxisLine(false);
 
         chart.getXAxis().setEnabled(true);
+        chart2.getXAxis().setEnabled(true);
         chart.getXAxis().setDrawGridLines(false);
+        chart2.getXAxis().setDrawGridLines(false);
 
 //Legend
         Legend l = chart.getLegend();
@@ -93,6 +113,12 @@ public class FragFirst extends Fragment{
         l.setTextSize(12f);
         l.setTextColor(Color.WHITE);
 
+        Legend l2 = chart2.getLegend();
+        l2.setEnabled(true);
+        l2.setFormSize(10f); // set the size of the legend forms/shapes
+        l2.setTextSize(12f);
+        l2.setTextColor(Color.WHITE);
+
 //Y축
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setEnabled(true);
@@ -100,12 +126,23 @@ public class FragFirst extends Fragment{
         leftAxis.setDrawGridLines(true);
         leftAxis.setGridColor(getResources().getColor(R.color.black));
 
+        YAxis leftAxis2 = chart2.getAxisLeft();
+        leftAxis2.setEnabled(true);
+        leftAxis2.setTextColor(getResources().getColor(R.color.purple_200));
+        leftAxis2.setDrawGridLines(true);
+        leftAxis2.setGridColor(getResources().getColor(R.color.black));
+
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
+
+        YAxis rightAxis2 = chart2.getAxisRight();
+        rightAxis2.setEnabled(false);
 
 
 // don't forget to refresh the drawing
         chart.invalidate();
+        chart2.invalidate();
+
 
         btn = (Button)view.findViewById(R.id.button);
         sensor1 = (EditText)view.findViewById(R.id.editTextTextPersonName);
@@ -121,7 +158,8 @@ public class FragFirst extends Fragment{
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         rt.interrupt();
     }
@@ -147,16 +185,14 @@ public class FragFirst extends Fragment{
                             if(data.equals("0"))
                             {
                                 sensor1.setText(data2);
-                                Log.d("MyTag", data);
-                                Log.d("MyTag", data2);
+                                addEntry(Double.parseDouble(data2), chart, "먼지");
                             }
                             else if(data.equals("1"))
                             {
                                 sensor2.setText(data2);
-                                Log.d("MyTag", data);
-                                Log.d("MyTag", data2);
+                                addEntry(Double.parseDouble(data2), chart2, "가스");
                             }
-                            addEntry(Double.parseDouble(data2));
+
                         }
                     });
                 }
@@ -165,11 +201,11 @@ public class FragFirst extends Fragment{
                     Toast.makeText(getActivity(), "통신 실패", Toast.LENGTH_SHORT).show();
                 }
             }
-
         }
-
     }
-    private void addEntry(double num) {
+
+    private void addEntry(double num, LineChart chart, String a)
+    {
 
         LineData data = chart.getData();
 
@@ -182,11 +218,9 @@ public class FragFirst extends Fragment{
         // set.addEntry(...); // can be called as well
 
         if (set == null) {
-            set = createSet();
+            set = createSet(a);
             data.addDataSet(set);
         }
-
-
 
         data.addEntry(new Entry((float)set.getEntryCount(), (float)num), 0);
         data.notifyDataChanged();
@@ -200,11 +234,10 @@ public class FragFirst extends Fragment{
 
     }
 
-    private LineDataSet createSet() {
+    private LineDataSet createSet(String a)
+    {
 
-
-
-        LineDataSet set = new LineDataSet(null, "Real-time Line Data");
+        LineDataSet set = new LineDataSet(null, a);
         set.setLineWidth(1f);
         set.setDrawValues(false);
         set.setValueTextColor(getResources().getColor(R.color.white));
@@ -215,5 +248,4 @@ public class FragFirst extends Fragment{
 
         return set;
     }
-
 }
